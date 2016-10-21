@@ -1,7 +1,8 @@
 package com.cmich.kirkp1ia.cps596.progassign2;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,16 +15,17 @@ public class MainActivity extends AppCompatActivity {
     private HashMap<Button, Boolean> player2;
 
     public boolean player1Turn = true;
+    private boolean gameOver = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.newGame();
+        this.newGame(null);
     }
 
-    public void newGame() {
+    public void newGame(View v) {
         this.player1 = new HashMap<Button, Boolean>();
         this.player2 = new HashMap<Button, Boolean>();
 
@@ -49,17 +51,72 @@ public class MainActivity extends AppCompatActivity {
         this.player2.put((Button) this.findViewById(R.id.C3), false);
 
         ((TextView) this.findViewById(R.id.prompt)).setText("Player 1's turn!");
+
+        Button a1 = (Button) this.findViewById(R.id.A1);
+        Button a2 = (Button) this.findViewById(R.id.A2);
+        Button a3 = (Button) this.findViewById(R.id.A3);
+        Button b1 = (Button) this.findViewById(R.id.B1);
+        Button b2 = (Button) this.findViewById(R.id.B2);
+        Button b3 = (Button) this.findViewById(R.id.B3);
+        Button c1 = (Button) this.findViewById(R.id.C1);
+        Button c2 = (Button) this.findViewById(R.id.C2);
+        Button c3 = (Button) this.findViewById(R.id.C3);
+        a1.setText("");
+        a2.setText("");
+        a3.setText("");
+        b1.setText("");
+        b2.setText("");
+        b3.setText("");
+        c1.setText("");
+        c2.setText("");
+        c3.setText("");
+
+        int btnSize=a1.getLayoutParams().width;
+        a1.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=a2.getLayoutParams().width;
+        a2.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=a3.getLayoutParams().width;
+        a3.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=b1.getLayoutParams().width;
+        b1.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=b2.getLayoutParams().width;
+        b2.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=b3.getLayoutParams().width;
+        b3.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=c1.getLayoutParams().width;
+        c1.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=c2.getLayoutParams().width;
+        c2.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+        btnSize=c3.getLayoutParams().width;
+        c3.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
+
+        this.player1Turn = true;
+        this.gameOver = false;
     }
 
     public void nextTurn(Button _square) {
         if (this.player1Turn) {
             this.player1.put(_square, true);
             _square.setText("X");
-            ((TextView) this.findViewById(R.id.prompt)).setText("Player 2's turn!");
+
+            if (this.checkWin(this.player1)) {
+                ((TextView) this.findViewById(R.id.prompt)).setText("Player 1 wins!");
+                this.gameOver = true;
+                return;
+            } else {
+                ((TextView) this.findViewById(R.id.prompt)).setText("Player 2's turn!");
+            }
         } else {
             this.player2.put(_square, true);
             _square.setText("O");
-            ((TextView) this.findViewById(R.id.prompt)).setText("Player 1's turn!");
+
+            if (this.checkWin(this.player2)) {
+                ((TextView) this.findViewById(R.id.prompt)).setText("Player 2 wins!");
+                this.gameOver = true;
+                return;
+            } else {
+                ((TextView) this.findViewById(R.id.prompt)).setText("Player 1's turn!");
+            }
         }
         this.player1Turn = !this.player1Turn;
     }
@@ -67,6 +124,43 @@ public class MainActivity extends AppCompatActivity {
     public void moveRequested(View v) {
         Button square = (Button) v;
 
+        if (!square.getText().equals("") || this.gameOver) {
+            // Someone already went here or the game is over.
+            return;
+        }
+
         this.nextTurn(square);
+    }
+
+    private boolean checkWin(HashMap<Button, Boolean> _player) {
+        Button a1 = (Button) this.findViewById(R.id.A1);
+        Button a2 = (Button) this.findViewById(R.id.A2);
+        Button a3 = (Button) this.findViewById(R.id.A3);
+        Button b1 = (Button) this.findViewById(R.id.B1);
+        Button b2 = (Button) this.findViewById(R.id.B2);
+        Button b3 = (Button) this.findViewById(R.id.B3);
+        Button c1 = (Button) this.findViewById(R.id.C1);
+        Button c2 = (Button) this.findViewById(R.id.C2);
+        Button c3 = (Button) this.findViewById(R.id.C3);
+
+        if (_player.get(a1) && _player.get(a2) && _player.get(a3)) {
+            return true;
+        } else if (_player.get(a1) && _player.get(b2) && _player.get(c3)) {
+            return true;
+        } else if (_player.get(a1) && _player.get(b1) && _player.get(c1)) {
+            return true;
+        } else if (_player.get(a2) && _player.get(b2) && _player.get(c2)) {
+            return true;
+        } else if (_player.get(a3) && _player.get(b3) && _player.get(c3)) {
+            return true;
+        } else if (_player.get(a3) && _player.get(b2) && _player.get(c1)) {
+            return true;
+        } else if (_player.get(b1) && _player.get(b2) && _player.get(b3)) {
+            return true;
+        } else if (_player.get(c1) && _player.get(c2) && _player.get(c3)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
