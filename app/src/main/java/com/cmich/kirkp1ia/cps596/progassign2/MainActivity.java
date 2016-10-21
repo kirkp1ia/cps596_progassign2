@@ -1,7 +1,6 @@
 package com.cmich.kirkp1ia.cps596.progassign2;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -70,25 +69,6 @@ public class MainActivity extends AppCompatActivity {
         c1.setText("");
         c2.setText("");
         c3.setText("");
-
-        int btnSize=a1.getLayoutParams().width;
-        a1.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=a2.getLayoutParams().width;
-        a2.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=a3.getLayoutParams().width;
-        a3.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=b1.getLayoutParams().width;
-        b1.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=b2.getLayoutParams().width;
-        b2.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=b3.getLayoutParams().width;
-        b3.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=c1.getLayoutParams().width;
-        c1.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=c2.getLayoutParams().width;
-        c2.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
-        btnSize=c3.getLayoutParams().width;
-        c3.setLayoutParams(new ActionBar.LayoutParams(btnSize, btnSize));
 
         this.player1Turn = true;
         this.gameOver = false;
